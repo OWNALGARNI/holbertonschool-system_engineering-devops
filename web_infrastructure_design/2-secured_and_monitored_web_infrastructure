@@ -1,0 +1,30 @@
+Secured and Monitored Web Infrastructure
+
+Diagram
+
+User → DNS → HAProxy →
+Nginx Server 1 / Nginx Server 2 →
+Application Server →
+MySQL Primary / Replica
+
+Each server is protected by a firewall and runs a monitoring agent.
+HTTPS is enabled using an SSL certificate for www.foobar.com.
+
+Purpose of added components
+- Firewalls: control incoming and outgoing traffic by allowing only necessary ports and blocking unwanted access.
+- SSL certificate: enables secure HTTPS communication by encrypting data exchanged between the user and the server.
+- Monitoring agents: gather system metrics and logs, sending them to a monitoring platform (e.g., Sumo Logic) for analysis.
+
+Why HTTPS is important
+- Encrypts data while it is being transmitted.
+- Protects sensitive information such as login credentials, sessions, and user data from interception or modification.
+
+Monitoring
+- Monitoring helps track system performance, availability, traffic, errors, and resource usage.
+- Each server runs a client that sends metrics to a centralized monitoring service.
+- To measure web server QPS (queries per second), request counts are collected over time and calculated from access logs or server metrics.
+
+Limitations and issues
+- SSL termination at the load balancer introduces a security concern, as traffic is decrypted before reaching backend servers.
+- Single writable MySQL node creates a bottleneck and a potential single point of failure for write operations.
+- Duplicating components across servers increases system complexity and may complicate scaling and maintenance, especially if one layer becomes overloaded.
