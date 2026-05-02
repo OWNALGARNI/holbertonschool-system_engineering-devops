@@ -1,0 +1,34 @@
+Distributed Web Infrastructure
+
+Diagram
+
+User → DNS (www.foobar.com
+) → HAProxy Load Balancer →
+Nginx Server 1 / Nginx Server 2 →
+Application Server 1 / Application Server 2 →
+MySQL Primary → MySQL Replica
+
+Purpose of each component
+- Load balancer: spreads incoming requests across multiple servers, improving availability and handling more traffic.
+- Two web/application servers: ensure redundancy and share the workload, so the system keeps running even if one server fails.
+- Primary-replica database: provides a main database for writes and a secondary copy for backup and read operations.
+
+Load balancing
+- Algorithm: Round Robin.
+- How it works: incoming requests are distributed sequentially across servers in a continuous loop, ensuring balanced usage.
+
+Cluster mode
+- This setup uses an active-active configuration, where both servers handle requests simultaneously.
+- In active-active, all nodes are operational and serve traffic.
+- In contrast, active-passive has one active node while the other remains idle until a failure occurs.
+
+Database replication
+- The primary node processes all write operations.
+- The replica node continuously synchronizes data from the primary and can handle read requests or serve as a backup.
+- Typically, the application sends writes to the primary and may distribute read queries depending on the architecture.
+
+Limitations and issues
+- The load balancer can still be a single point of failure if there is only one instance.
+- Absence of a firewall exposes the system to potential security threats.
+- Lack of HTTPS means data is transmitted without encryption.
+- Without monitoring, system failures and performance degradation may not be detected promptly.
